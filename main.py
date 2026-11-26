@@ -26,12 +26,12 @@ AMBER = (214, 144, 20)
 WHITE = (255, 255, 255)
 
 STORIES = [
-    ("MARKETS", ["Asia rebounds amid", "tariff storm;", "Nvidia jitters linger"], "chart"),
-    ("SHENZHOU-24", ["Pakistan's first", "astronaut rides", "to Tiangong"], "rocket"),
-    ("UKRAINE WAR", ["Libyan officers die", "after drone strike", "on Russian warship"], "ship"),
-    ("OIL", ["Houthi strike on", "Saudi refinery;", "Brent near $95"], "oil"),
-    ("SPACE", ["FCC clears SpaceX", "plan for 1M orbital", "data centers"], "sat"),
-    ("THANKSGIVING", ["Macy's 100th parade", "postponed", "to Saturday"], "balloon"),
+    ("MARKETS", ["Asia rebounds amid", "tariff storm;", "Nvidia jitters linger"], "chart", "Reuters"),
+    ("SHENZHOU-24", ["Pakistan's first", "astronaut rides", "to Tiangong"], "rocket", "AP"),
+    ("UKRAINE WAR", ["Libyan officers die", "after drone strike", "on Russian warship"], "ship", "AP"),
+    ("OIL", ["Houthi strike on", "Saudi refinery;", "Brent near $95"], "oil", "Reuters"),
+    ("SPACE", ["FCC clears SpaceX", "plan for 1M orbital", "data centers"], "sat", "AP"),
+    ("THANKSGIVING", ["Macy's 100th parade", "postponed", "to Saturday"], "balloon", "AP"),
 ]
 
 
@@ -119,7 +119,7 @@ def paint(target):
             pen.line([cx + 44, cy - 24, cx + 40, cy - 10], fill=GREY, width=4)
 
     box_w, box_h, gap = 462, 216, 16
-    for slot, (heading, lines, kind) in enumerate(STORIES):
+    for slot, (heading, lines, kind, source) in enumerate(STORIES):
         x = 40 + (slot % 2) * (box_w + gap)
         y = 258 + (slot // 2) * (box_h + gap)
         pen.rectangle([x, y, x + box_w, y + box_h], fill=WHITE, outline=INK, width=3)
@@ -127,7 +127,8 @@ def paint(target):
         left, _, right, _ = pen.textbbox((0, 0), heading, font=face(bold, 28))
         pen.text((x + (box_w - (right - left)) / 2, y + 10), heading, font=face(bold, 28), fill=WHITE)
         glyph(kind, x + 92, y + 134)
-        pen.multiline_text((x + 168, y + 80), "\n".join(lines), font=face(sans, 26), fill=INK, spacing=8)
+        pen.multiline_text((x + 168, y + 76), "\n".join(lines), font=face(sans, 26), fill=INK, spacing=8)
+        pen.text((x + 168, y + 184), "Source: " + source, font=face(bold, 17), fill=GREY)
 
     centered(960, "Six stories from one Thursday — 26 November 2026", face(bold, 26), GREY)
     canvas.save(target, optimize=True)
